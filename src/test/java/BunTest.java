@@ -3,13 +3,17 @@ package praktikum;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import org.junit.runners.Parameterized.Parameters;
+
 import java.util.Arrays;
 import java.util.Collection;
 
 import static org.junit.Assert.assertEquals;
+
 @RunWith(Parameterized.class)
 public class BunTest {
-    @Parameterized.Parameters(name = "Bun({0}, {1}) хранит название и цену")
+
+    @Parameters(name = "Bun({0}, {1}) хранит название и цену")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
                 {"black bun", 100f},
@@ -29,10 +33,14 @@ public class BunTest {
     }
 
     @Test
-    public void constructorStoresNameAndPrice() {
+    public void constructorStoresName() {
         Bun bun = new Bun(name, price);
-
         assertEquals(name, bun.getName());
+    }
+
+    @Test
+    public void constructorStoresPrice() {
+        Bun bun = new Bun(name, price);
         assertEquals(price, bun.getPrice(), 0.001f);
     }
 
@@ -48,5 +56,3 @@ public class BunTest {
         assertEquals(price, bun.getPrice(), 0.001f);
     }
 }
-
-

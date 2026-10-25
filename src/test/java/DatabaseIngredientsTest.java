@@ -1,9 +1,11 @@
+package praktikum;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import praktikum.Database;
-import praktikum.Ingredient;
-import praktikum.IngredientType;
+import org.junit.runners.Parameterized.Parameters;
+
+
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -12,7 +14,8 @@ import static org.junit.Assert.assertEquals;
 
 @RunWith(Parameterized.class)
 public class DatabaseIngredientsTest {
-    @Parameterized.Parameters(name = "Ингредиент #{0}: {1} {2}, {3}")
+
+    @Parameters(name = "Ингредиент #{0}: {1} {2}, {3}")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
                 {0, IngredientType.SAUCE,   "hot sauce",   100f},
@@ -37,13 +40,30 @@ public class DatabaseIngredientsTest {
     }
 
     @Test
-    public void ingredientAtIndexHasExpectedData() {
+    public void availableIngredientsReturnsSixItems() {
         List<Ingredient> ingredients = new Database().availableIngredients();
 
         assertEquals(6, ingredients.size());
-        Ingredient ingredient = ingredients.get(index);
-        assertEquals(type, ingredient.getType());
-        assertEquals(name, ingredient.getName());
-        assertEquals(price, ingredient.getPrice(), 0.001f);
+    }
+
+    @Test
+    public void ingredientAtIndexHasExpectedType() {
+        List<Ingredient> ingredients = new Database().availableIngredients();
+
+        assertEquals(type, ingredients.get(index).getType());
+    }
+
+    @Test
+    public void ingredientAtIndexHasExpectedName() {
+        List<Ingredient> ingredients = new Database().availableIngredients();
+
+        assertEquals(name, ingredients.get(index).getName());
+    }
+
+    @Test
+    public void ingredientAtIndexHasExpectedPrice() {
+        List<Ingredient> ingredients = new Database().availableIngredients();
+
+        assertEquals(price, ingredients.get(index).getPrice(), 0.001f);
     }
 }

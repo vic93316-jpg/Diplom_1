@@ -1,15 +1,20 @@
+package praktikum;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
-import praktikum.Ingredient;
-import praktikum.IngredientType;
+import org.junit.runners.Parameterized.Parameters;
+
+
 import java.util.Arrays;
 import java.util.Collection;
+
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+
 @RunWith(Parameterized.class)
 public class IngredientTest {
-    @Parameterized.Parameters(name = "Ingredient({0}, {1}, {2})")
+
+    @Parameters(name = "Ingredient({0}, {1}, {2})")
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][] {
                 {IngredientType.SAUCE,   "hot sauce",   100f},
@@ -32,17 +37,23 @@ public class IngredientTest {
     }
 
     @Test
-    public void constructorStoresAllFields() {
+    public void constructorStoresType() {
         Ingredient ingredient = new Ingredient(type, name, price);
 
         assertEquals(type, ingredient.getType());
-        assertEquals(name, ingredient.getName());
-        assertEquals(price, ingredient.getPrice(), 0.001f);
     }
 
     @Test
-    public void ingredientTypeIsAvailable() {
-        assertNotNull(type);
+    public void constructorStoresName() {
+        Ingredient ingredient = new Ingredient(type, name, price);
+
+        assertEquals(name, ingredient.getName());
+    }
+
+    @Test
+    public void constructorStoresPrice() {
+        Ingredient ingredient = new Ingredient(type, name, price);
+
+        assertEquals(price, ingredient.getPrice(), 0.001f);
     }
 }
-

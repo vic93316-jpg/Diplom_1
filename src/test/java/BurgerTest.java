@@ -1,21 +1,28 @@
+package praktikum;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
-import praktikum.Bun;
-import praktikum.Burger;
-import praktikum.Ingredient;
-import praktikum.IngredientType;
+
+
+import java.util.Arrays;
+import java.util.Collections;
+
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertSame;
-import static org.mockito.Mockito.*;
-@RunWith(MockitoJUnitRunner.class)
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
+@RunWith(MockitoJUnitRunner.class)
 public class BurgerTest {
+
     @Mock Bun bun;
     @Mock Ingredient sauce;
     @Mock Ingredient filling;
+    @Mock Ingredient third;
 
     private Burger burger;
 
@@ -35,9 +42,7 @@ public class BurgerTest {
         burger.addIngredient(sauce);
         burger.addIngredient(filling);
 
-        assertEquals(2, burger.ingredients.size());
-        assertSame(sauce, burger.ingredients.get(0));
-        assertSame(filling, burger.ingredients.get(1));
+        assertEquals(Arrays.asList(sauce, filling), burger.ingredients);
     }
 
     @Test
@@ -47,8 +52,7 @@ public class BurgerTest {
 
         burger.removeIngredient(0);
 
-        assertEquals(1, burger.ingredients.size());
-        assertSame(filling, burger.ingredients.get(0));
+        assertEquals(Collections.singletonList(filling), burger.ingredients);
     }
 
     @Test(expected = IndexOutOfBoundsException.class)
@@ -59,30 +63,24 @@ public class BurgerTest {
 
     @Test
     public void moveIngredientForward() {
-        Ingredient third = mock(Ingredient.class);
         burger.addIngredient(sauce);
         burger.addIngredient(filling);
         burger.addIngredient(third);
 
         burger.moveIngredient(2, 0);
 
-        assertSame(third, burger.ingredients.get(0));
-        assertSame(sauce, burger.ingredients.get(1));
-        assertSame(filling, burger.ingredients.get(2));
+        assertEquals(Arrays.asList(third, sauce, filling), burger.ingredients);
     }
 
     @Test
     public void moveIngredientBackward() {
-        Ingredient third = mock(Ingredient.class);
         burger.addIngredient(sauce);
         burger.addIngredient(filling);
         burger.addIngredient(third);
 
         burger.moveIngredient(0, 2);
 
-        assertSame(filling, burger.ingredients.get(0));
-        assertSame(third, burger.ingredients.get(1));
-        assertSame(sauce, burger.ingredients.get(2));
+        assertEquals(Arrays.asList(filling, third, sauce), burger.ingredients);
     }
 
     @Test
@@ -97,6 +95,15 @@ public class BurgerTest {
 
         // 100*2 + 50 + 150 = 400
         assertEquals(400f, burger.getPrice(), 0.001f);
+    }
+
+    @Test
+    public void getPriceCallsBunPriceOnce() {
+        when(bun.getPrice()).thenReturn(100f);
+        burger.setBuns(bun);
+
+        burger.getPrice();
+
         verify(bun, times(1)).getPrice();
     }
 
@@ -138,6 +145,16 @@ public class BurgerTest {
         );
 
         assertEquals(expected, burger.getReceipt());
+    }
+
+    @Test
+    public void getReceiptCallsBunNameTwice() {
+        when(bun.getName()).thenReturn("test bun");
+        when(bun.getPrice()).thenReturn(100f);
+        burger.setBuns(bun);
+
+        burger.getReceipt();
+
         verify(bun, times(2)).getName();
     }
 
