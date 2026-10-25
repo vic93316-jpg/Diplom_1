@@ -9,6 +9,7 @@ public class Praktikum {
         // Инициализируем базу данных
         Database database = new Database();
 
+
         // Создадим новый бургер
         Burger burger = new Burger();
 

@@ -4,7 +4,6 @@ import org.junit.runners.Parameterized;
 import praktikum.Database;
 import praktikum.Ingredient;
 import praktikum.IngredientType;
-
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
